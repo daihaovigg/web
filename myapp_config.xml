@@ -1,0 +1,9 @@
+<uwsgi>
+  <pythonpath>/home/dai/web/static</pythonpath>
+  <module>myapp</module>
+  <callable>app</callable>
+  <socket>0.0.0.0:7077</socket>
+  <listen>80</listen>
+  <master/>
+  <processes>4</processes>
+</uwsgi>
