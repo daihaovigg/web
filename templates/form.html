@@ -18,7 +18,7 @@ width:300px;
 /*end*/
 </style>
 </head>
-<body>
+<body style="background-image:url({{back_url}})">
   {% if message %}
   <p style="color:red">{{ message }}</p>
   {% endif %}
@@ -26,7 +26,9 @@ width:300px;
     <legend>Please sign in:</legend>
     <p><input name="username" placeholder="Username" value="{{ username }}"></p>
     <p><input name="password" placeholder="Password" type="password"></p>
-    <img src="code1.jpg"  />
+    <p><input name="code" onpaste="return false" style="ime-mode:disabled"></p>
+	<br/>
+	<img src={{code_url}} />
     <p><button type="submit">Sign In</button></p>
   </form>
   <div>'Saying:'</div>

@@ -13,7 +13,7 @@ class mycaptcha(object):
     self.height = 60
     self.image = Image.new('RGB', (self.width, self.height), (255, 255, 255))
 # 创建Font对象:
-    self.font = ImageFont.truetype('/usr/share/fonts/paratype-pt-sans/PTS56F.ttf', 36)
+    self.font = ImageFont.truetype('/usr/share/fonts/dejavu/DejaVuSans.ttf',36)
 # 创建Draw对象:
     self.draw = ImageDraw.Draw(self.image)
     self.fillcode()
@@ -44,7 +44,7 @@ class mycaptcha(object):
       self.code=self.code+rndchar
       self.draw.text((60 * t + 10, 10), rndchar, font=self.font, fill=self.rndColor2())
   def save(self):
-    self.image.save('code.jpg', 'jpeg')
+    self.image.save('static/code.jpg', 'jpeg')
 
   def reload(self):
     return self.__init__()
