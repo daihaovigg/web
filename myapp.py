@@ -14,33 +14,34 @@ def welcome():
     return render_template('welcome.html',back_url=url_for('static',filename='back.jpg'))
 
 
-@app.route('/signin', methods=['GET', 'POST'])
+@app.route('/signin', methods=['GET'])
 def signin_form():
-  if request.method == 'GET':
-	captcha.reload() 
-	captcha.save()
-  	return render_template('form.html',back_url=url_for('static',filename='back.jpg'),code_url=url_for('static',filename='code.jpg'))
+    captcha.reload() 
+    captcha.save()
+    return render_template('form.html',back_url=url_for('static',filename='back.jpg'),code_url=url_for('static',filename='code.jpg'))
 
-  elif request.method == 'POST':
-        username = request.form['username']
-    	password = request.form['password']
-    	code = request.form['code']
-	print code,captcha.code
-    	if username=='dai' and password=='dai' and code == captcha.code:
-      		usrinfo=mymd5(username,password)
-      		return redirect(url_for('home'))
-	else:
-		captcha.reload() 
-		captcha.save()
-    		return render_template('form.html', message='Bad username or password', username=username,back_url=url_for('static',filename='back.jpg'),code_url=url_for('code.jpg'))
+@app.route('/signin', methods=['POST'])
+def sigin_post():
+    username = request.form['username']
+    password = request.form['password']
+    code = request.form['code']
+    print code,captcha.code
+    if username=='dai' and password=='dai' and code == captcha.code:
+      	    usrinfo=mymd5(username,password)
+      	    return redirect(url_for('home'))
+    else:
+	    captcha.reload() 
+	    captcha.save()
+            redirect(url_for('signin'))
+    	    #return render_template('form.html', message='Bad username or password', username=username,back_url=url_for('static',filename='back.jpg'),code_url=url_for('code.jpg'))
 
 @app.route('/code.jpg')
 def capcode():
-    redirect(url_for('static',filename='code.jpg',code=301))
+    redirect(url_for('static',filename='code.jpg'))
 
 @app.route('/back.jpg')
 def background():
-    redirect(url_for('static',filename='back.jpg',code=301))
+    redirect(url_for('static',filename='back.jpg'))
     
 
 @app.route('/home',methods=['GET'])
