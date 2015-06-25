@@ -34,13 +34,13 @@ def signin_form():
 		captcha.save()
     		return render_template('form.html', message='Bad username or password', username=username,back_url=url_for('static',filename='back.jpg'),code_url=url_for('code.jpg'))
 
-#@app.route('/code.jpg')
-#def capcode():
-#    redirect(url_for('static',filename='code.jpg',code=301))
+@app.route('/code.jpg')
+def capcode():
+    redirect(url_for('static',filename='code.jpg',code=301))
 
-#@app.route('/back.jpg')
-#def background():
-#    redirect(url_for('static',filename='back.jpg',code=301))
+@app.route('/back.jpg')
+def background():
+    redirect(url_for('static',filename='back.jpg',code=301))
     
 
 @app.route('/home',methods=['GET'])

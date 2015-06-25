@@ -4,6 +4,10 @@
 from PIL import Image,ImageFilter,ImageDraw,ImageFont
 import random
 #验证码
+import ConfigParser
+config = ConfigParser.ConfigParser()
+config.read("comm.conf")
+font_path=config.get("font","path")
 
 class mycaptcha(object):
   def __init__(self):
@@ -13,7 +17,7 @@ class mycaptcha(object):
     self.height = 60
     self.image = Image.new('RGB', (self.width, self.height), (255, 255, 255))
 # 创建Font对象:
-    self.font = ImageFont.truetype('/usr/share/fonts/dejavu/DejaVuSans.ttf',36)
+    self.font = ImageFont.truetype(font_path,36)
 # 创建Draw对象:
     self.draw = ImageDraw.Draw(self.image)
     self.fillcode()
