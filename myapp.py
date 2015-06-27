@@ -26,14 +26,13 @@ def sigin_post():
     password = request.form['password']
     code = request.form['code']
     print code,captcha.code
-    if username=='dai' and password=='dai' and code == captcha.code:
+    if username=='dai' and password=='dai':   # and code == captcha.code:
       	    usrinfo=mymd5(username,password)
       	    return redirect(url_for('home'))
     else:
 	    captcha.reload() 
 	    captcha.save()
-            redirect(url_for('signin'))
-    	    #return render_template('form.html', message='Bad username or password', username=username,back_url=url_for('static',filename='back.jpg'),code_url=url_for('code.jpg'))
+    	    return render_template('form.html', message='Bad username or password', username=username,back_url=url_for('static',filename='back.jpg'),code_url=url_for('static',filename='code.jpg'))
 
 @app.route('/code.jpg')
 def capcode():
