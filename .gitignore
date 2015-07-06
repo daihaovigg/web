@@ -1,2 +1,6 @@
 #config ignore
+
 *.conf
+
+
+*.pyc
