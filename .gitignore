@@ -1,4 +1,5 @@
 #config ignore
 *.conf
-*.pyc
+__pycache__
 config_override.py
+test.py
