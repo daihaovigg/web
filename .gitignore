@@ -1,6 +1,4 @@
 #config ignore
-
 *.conf
-
-
 *.pyc
+config_override.py
