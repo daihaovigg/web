@@ -18,7 +18,7 @@ function initVM(data) {
             delete_comment: function (comment) {
                 var content = comment.content.length > 20 ? comment.content.substring(0, 20) + '...' : comment.content;
                 if (confirm('确认要删除评论“' + comment.content + '”？删除后不可恢复！')) {
-                    postJSON('/api/comments/' + comment.id + '/delete', function (err, r) {
+                    postJSON('/myapi/comments/' + comment.id + '/delete', function (err, r) {
                         if (err) {
                             return error(err);
                         }
@@ -31,7 +31,7 @@ function initVM(data) {
 }
 
 $(function() {
-    getJSON('/api/comments', {
+    getJSON('/myapi/comments', {
         page: {{ page_index }}
     }, function (err, results) {
         if (err) {
@@ -52,8 +52,7 @@ $(function() {
         <div class="uk-panel uk-panel-box">
             <ul class="uk-breadcrumb">
                 <li class="uk-active"><span>评论</span></li>
-                <li><a href="/manage/blogs">日志</a></li>
-                <li><a href="/manage/users">用户</a></li>
+                <li><a href="/mymanage/blogs">日志</a></li>
             </ul>
         </div>
     </div>

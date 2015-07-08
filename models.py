@@ -45,5 +45,6 @@ class Comment(Model):
     user_id = StringField(ddl='varchar(50)')
     user_name = StringField(ddl='varchar(50)')
     user_image = StringField(ddl='varchar(500)')
+    to_who = StringField(ddl='varchar(50)')
     content = TextField()
     created_at = FloatField(default=time.time)

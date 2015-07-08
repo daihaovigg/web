@@ -209,7 +209,7 @@ def api_create_comment(id, request, *, content):
     blog = yield from Blog.find(id)
     if blog is None:
         raise APIResourceNotFoundError('Blog')
-    comment = Comment(blog_id=blog.id, user_id=user.id, user_name=user.name, user_image=user.image, content=content.strip())
+    comment = Comment(blog_id=blog.id, user_id=user.id, user_name=user.name, user_image=user.image, to_who=blog.user_name,content=content.strip())
     yield from comment.save()
     return comment
 
@@ -314,16 +314,38 @@ def api_delete_blog(request, *, id):
 
 
 #######common user manage######
-@get('/api/comments')
-def api_comments(*, page='1'):
+@get('/myapi/comments')
+def myapi_comments(request,*, page='1'):
     page_index = get_page_index(page)
     num = yield from Comment.findNumber('count(id)')
     p = Page(num, page_index)
     if num == 0:
         return dict(page=p, comments=())
-    comments = yield from Comment.findAll(orderBy='created_at desc', limit=(p.offset, p.limit))
+    where_user='to_who='+'\''+request.__user__.name+'\''
+    comments = yield from Comment.findAll(where=where_user,orderBy='created_at desc', limit=(p.offset, p.limit))
     return dict(page=p, comments=comments)
 
+@post('/myapi/blogs/{id}/comments')
+def myapi_create_comment(id, request, *, content):
+    user = request.__user__
+    if user is None:
+        raise APIPermissionError('Please signin first.')
+    if not content or not content.strip():
+        raise APIValueError('content')
+    blog = yield from Blog.find(id)
+    if blog is None:
+        raise APIResourceNotFoundError('Blog')
+    comment = Comment(blog_id=blog.id, user_id=user.id, user_name=user.name, user_image=user.image, to_who=blog.user_name,content=content.strip())
+    yield from comment.save()
+    return comment
+
+@post('/myapi/comments/{id}/delete')
+def myapi_delete_comments(id, request):
+    c = yield from Comment.find(id)
+    if c is None:
+        raise APIResourceNotFoundError('Comment')
+    yield from c.remove()
+    return dict(id=id)
 
 @get('/myapi/blogs')
 def myapi_blogs(request,*, page='1'):
@@ -402,4 +424,11 @@ def mymanage_edit_blog(*, id):
         '__template__': 'mymanage_blog_edit.html',
         'id': id,
         'action': '/myapi/blogs/%s' % id
+    }
+
+@get('/mymanage/comments')
+def mymanage_comments(*, page='1'):
+    return {
+        '__template__': 'mymanage_comments.html',
+        'page_index': get_page_index(page)
     }
