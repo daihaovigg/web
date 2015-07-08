@@ -310,3 +310,96 @@ def api_delete_blog(request, *, id):
     blog = yield from Blog.find(id)
     yield from blog.remove()
     return dict(id=id)
+
+
+
+#######common user manage######
+@get('/api/comments')
+def api_comments(*, page='1'):
+    page_index = get_page_index(page)
+    num = yield from Comment.findNumber('count(id)')
+    p = Page(num, page_index)
+    if num == 0:
+        return dict(page=p, comments=())
+    comments = yield from Comment.findAll(orderBy='created_at desc', limit=(p.offset, p.limit))
+    return dict(page=p, comments=comments)
+
+
+@get('/myapi/blogs')
+def myapi_blogs(request,*, page='1'):
+    page_index = get_page_index(page)
+    num = yield from Blog.findNumber('count(id)')
+    p = Page(num, page_index)
+    if num == 0:
+        return dict(page=p, blogs=())
+    where_user='user_name='+'\''+request.__user__.name+'\''
+    blogs = yield from Blog.findAll(where=where_user,orderBy='created_at desc', limit=(p.offset, p.limit))
+    return dict(page=p, blogs=blogs)
+
+@get('/myapi/blogs/{id}')
+def myapi_get_blog(*, id):
+    blog = yield from Blog.find(id)
+    return blog
+
+@post('/myapi/blogs')
+def myapi_create_blog(request, *, name, summary, content):
+    if not name or not name.strip():
+        raise APIValueError('name', 'name cannot be empty.')
+    if not summary or not summary.strip():
+        raise APIValueError('summary', 'summary cannot be empty.')
+    if not content or not content.strip():
+        raise APIValueError('content', 'content cannot be empty.')
+    blog = Blog(user_id=request.__user__.id, user_name=request.__user__.name, user_image=request.__user__.image, name=name.strip(), summary=summary.strip(), content=content.strip())
+    yield from blog.save()
+    return blog
+
+
+@post('/myapi/blogs/{id}')
+def myapi_update_blog(id, request, *, name, summary, content):
+    blog = yield from Blog.find(id)
+    if not name or not name.strip():
+        raise APIValueError('name', 'name cannot be empty.')
+    if not summary or not summary.strip():
+        raise APIValueError('summary', 'summary cannot be empty.')
+    if not content or not content.strip():
+        raise APIValueError('content', 'content cannot be empty.')
+    blog.name = name.strip()
+    blog.summary = summary.strip()
+    blog.content = content.strip()
+    yield from blog.update()
+    return blog
+
+@post('/myapi/blogs/{id}/delete')
+def myapi_delete_blog(request, *, id):
+    #check_admin(request)
+    blog = yield from Blog.find(id)
+    yield from blog.remove()
+    return dict(id=id)
+
+
+@get('/mymanage/')
+def mymanage():
+    return 'redirect:/mymanage/blogs'
+
+@get('/mymanage/blogs')
+def mymanage_blogs(*, page='1'):
+    return {
+        '__template__': 'mymanage_blogs.html',
+        'page_index': get_page_index(page)
+    }
+
+@get('/mymanage/blogs/create')
+def mymanage_create_blog():
+    return {
+        '__template__': 'mymanage_blog_edit.html',
+        'id': '',
+        'action': '/myapi/blogs'
+    }
+
+@get('/mymanage/blogs/edit')
+def mymanage_edit_blog(*, id):
+    return {
+        '__template__': 'mymanage_blog_edit.html',
+        'id': id,
+        'action': '/myapi/blogs/%s' % id
+    }

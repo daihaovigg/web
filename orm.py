@@ -194,6 +194,7 @@ class Model(dict, metaclass=ModelMetaclass):
         rs = yield from select(' '.join(sql), args)
         return [cls(**r) for r in rs]
 
+
     @classmethod
     @asyncio.coroutine
     def findNumber(cls, selectField, where=None, args=None):
