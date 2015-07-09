@@ -434,9 +434,18 @@ def mymanage_comments(*, page='1'):
         'page_index': get_page_index(page)
     }
 
-#@get('/user/{id}')
-#def user_blogs(*, page='1'):
- #   return {
-  #      '__template__': 'user_blogs.html',
-   #     'page_index': get_page_index(page)
-    #}
+@get('/user/{id}')
+def user_blogs(id,*, page='1'):
+    page_index = get_page_index(page)
+    num = yield from Blog.findNumber('count(id)')
+    page = Page(num)
+    if num == 0:
+        blogs = []
+    else:
+        where_user='user_name='+'\''+id+'\''
+        blogs = yield from Blog.findAll(where=where_user,orderBy='created_at desc', limit=(page.offset, page.limit))
+    return {
+        '__template__': 'user_blogs.html',
+        'page': page,
+        'blogs': blogs
+    }
