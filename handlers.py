@@ -434,9 +434,9 @@ def mymanage_comments(*, page='1'):
         'page_index': get_page_index(page)
     }
 
-@get('/user/{id}')
-def user_blogs(*, page='1'):
-    return {
-        '__template__': 'user_blogs.html',
-        'page_index': get_page_index(page)
-    }
+#@get('/user/{id}')
+#def user_blogs(*, page='1'):
+ #   return {
+  #      '__template__': 'user_blogs.html',
+   #     'page_index': get_page_index(page)
+    #}
