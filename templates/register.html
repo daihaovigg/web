@@ -36,11 +36,13 @@ $(function () {
                 if (this.password1 !== this.password2) {
                     return $form.showFormError('两次输入的口令不一致');
                 }
+                var image = '/static/img/default.jpg';
                 var email = this.email.trim().toLowerCase();
                 $form.postJSON('/api/users', {
                     name: this.name.trim(),
                     email: email,
-                    passwd: CryptoJS.SHA1(email + ':' + this.password1).toString()
+                    passwd: CryptoJS.SHA1(email + ':' + this.password1).toString(),
+                    image: image
                 }, function (err, r) {
                     if (err) {
                         return $form.showFormError(err);
