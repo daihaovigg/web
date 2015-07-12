@@ -453,3 +453,12 @@ def user_blogs(id,*, page='1'):
 
 
 #####defalut image of HD########
+@get('/uploader')
+def get_img_upload():
+    return {
+        '__template__': 'img_upload.html'
+    }
+
+@post('/uploader')
+def img_upload(request):    
+    pass
