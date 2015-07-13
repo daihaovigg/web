@@ -459,6 +459,12 @@ def get_img_upload():
         '__template__': 'img_upload.html'
     }
 
-@post('/uploader')
-def img_upload(request):    
-    pass
+
+@post('/myapi/uploader')
+def head_img_upload(request,*,file):
+    print(request.values)
+    #file.file.seek(0)
+    #jpg=open("a.jpg","wb")
+    #for i in file.file:
+    #    jpg.write(i)
+

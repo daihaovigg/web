@@ -4,6 +4,19 @@
 
 {% block beforehead %}
 
+<script src="/static/js/dropzone.min.js" type="text/javascript"></script> 
+<link rel="stylesheet" href="/static/css/dropzone.min.css">
+<div id="dropz"></div>
+<script>
+    if vm.
+    $("#dropz").dropzone({
+        url: "/uploader",
+        maxFilesize: 1,
+        acceptedFiles: ".jpg,.gif,.jpeg"
+    });
+</script>
+
+
 <script>
 
 function validateEmail(email) {
@@ -36,6 +49,7 @@ $(function () {
                 if (this.password1 !== this.password2) {
                     return $form.showFormError('两次输入的口令不一致');
                 }
+
                 var image = '/static/img/default.jpg';
                 var email = this.email.trim().toLowerCase();
                 $form.postJSON('/api/users', {
@@ -89,10 +103,18 @@ $(function () {
                     <input v-model="password2" type="password" maxlength="50" placeholder="重复口令" class="uk-width-1-1">
                 </div>
             </div>
-            <div class="uk-form-row">
+           <div class="uk-form-row">
                 <button type="submit" class="uk-button uk-button-primary"><i class="uk-icon-user"></i> 注册</button>
-            </div>
+            </div> 
+            <div class="uk-form-row">
+            <label class="uk-form-label">上传头像（拖入文件或者点击上传）:</label>
+            </div>        
         </form>
+        <form action="/myapi/uploader" method="post"
+                enctype="multipart/form-data" class="dropzone"
+                id="dropz">
+            </form>
+            
     </div>
 
 {% endblock %}
