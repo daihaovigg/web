@@ -5,7 +5,7 @@ __author__ = 'Michael Liao'
 
 ' url handlers '
 
-import re, time, json, logging, hashlib, base64, asyncio
+import re, time, json, logging, hashlib, base64, asyncio,os
 
 import markdown2
 
@@ -102,11 +102,12 @@ def get_blog(id):
         'blog': blog,
         'comments': comments
     }
-
+import uuid
 @get('/register')
 def register():
     return {
-        '__template__': 'register.html'
+        '__template__': 'register.html',
+        'img_uuid': uuid.uuid1()
     }
 
 @get('/signin')
@@ -239,7 +240,8 @@ _RE_EMAIL = re.compile(r'^[a-z0-9\.\-\_]+\@[a-z0-9\-\_]+(\.[a-z0-9\-\_]+){1,4}$'
 _RE_SHA1 = re.compile(r'^[0-9a-f]{40}$')
 
 @post('/api/users')
-def api_register_user(*, email, name, passwd,image):
+def api_register_user(*, email, name, passwd,image,img_name):
+    print(img_name)
     if not name or not name.strip():
         raise APIValueError('name')
     if not email or not _RE_EMAIL.match(email):
@@ -453,18 +455,16 @@ def user_blogs(id,*, page='1'):
 
 
 #####defalut image of HD########
-@get('/uploader')
-def get_img_upload():
-    return {
-        '__template__': 'img_upload.html'
-    }
 
 
-@post('/myapi/uploader')
-def head_img_upload(request,*,file):
-    print(request.values)
-    #file.file.seek(0)
-    #jpg=open("a.jpg","wb")
-    #for i in file.file:
-    #    jpg.write(i)
+
+@post('/myapi/uploader/{img_uuid}')
+def head_img_upload(request,*,file,img_uuid):
+    file.file.seek(0)
+    path=os.path.abspath('.')
+    path=os.path.join(path,"HeadImg")
+    path=os.path.join(path,"%s.jpg" % img_uuid)
+    with open(path,"wb") as jpg:
+        for i in file.file:
+            jpg.write(i)
 

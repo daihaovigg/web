@@ -8,12 +8,7 @@
 <link rel="stylesheet" href="/static/css/dropzone.min.css">
 <div id="dropz"></div>
 <script>
-    if vm.
-    $("#dropz").dropzone({
-        url: "/uploader",
-        maxFilesize: 1,
-        acceptedFiles: ".jpg,.gif,.jpeg"
-    });
+
 </script>
 
 
@@ -108,13 +103,16 @@ $(function () {
             </div> 
             <div class="uk-form-row">
             <label class="uk-form-label">上传头像（拖入文件或者点击上传）:</label>
-            </div>        
+            </div>
+            <!--   
+            <div class="dropzone" id="dropz" enctype="multipart/form-data">ha</div>
+            -->    
         </form>
-        <form action="/myapi/uploader" method="post"
+
+        <form action="/myapi/uploader/{{img_uuid}}" method="post"
                 enctype="multipart/form-data" class="dropzone"
                 id="dropz">
             </form>
-            
     </div>
 
 {% endblock %}
