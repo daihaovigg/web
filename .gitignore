@@ -2,5 +2,5 @@
 *.conf
 __pycache__
 config_override.py
-test.py
 **/HeadImg
+**/BlogImg

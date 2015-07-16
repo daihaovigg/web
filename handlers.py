@@ -471,3 +471,13 @@ def head_img_upload(request,*,file,img_uuid):
         for i in file.file:
             jpg.write(i)
 
+
+
+#####test######
+@get('/upload')
+def test_get():
+    return {
+        '__template__': 'img_upload.html'}
+@post('/myapi/upload')
+def test(request,*,file):
+    pass

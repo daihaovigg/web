@@ -8,11 +8,11 @@
 <link rel="stylesheet" href="/static/css/dropzone.min.css">
 <div id="dropz"></div>
 <script>
-    /*$("#dropz").dropzone({
-        maxFiles: 1,
-        maxFilesize: 2,
-        acceptedFiles: ".jpg,.gif,.png"
-    });*/
+    Dropzone.options.dropz = {
+    maxFilesize: 1.2, // MB
+    acceptedFiles: ".jpg,.gif,.png",
+    maxFiles: 1,
+    }
 </script>
 
 
