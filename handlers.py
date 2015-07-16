@@ -240,8 +240,7 @@ _RE_EMAIL = re.compile(r'^[a-z0-9\.\-\_]+\@[a-z0-9\-\_]+(\.[a-z0-9\-\_]+){1,4}$'
 _RE_SHA1 = re.compile(r'^[0-9a-f]{40}$')
 
 @post('/api/users')
-def api_register_user(*, email, name, passwd,image,img_name):
-    print(img_name)
+def api_register_user(*, email, name, passwd,img_uuid):
     if not name or not name.strip():
         raise APIValueError('name')
     if not email or not _RE_EMAIL.match(email):
@@ -253,7 +252,10 @@ def api_register_user(*, email, name, passwd,image,img_name):
         raise APIError('register:failed', 'email', 'Email is already in use.')
     uid = next_id()
     sha1_passwd = '%s:%s' % (uid, passwd)
-    user = User(id=uid, name=name.strip(), email=email, passwd=hashlib.sha1(sha1_passwd.encode('utf-8')).hexdigest(), image=image)
+    img_path="/static/HeadImg/"
+    img_path=img_path+img_uuid
+    img_path=img_path+".jpg"
+    user = User(id=uid, name=name.strip(), email=email, passwd=hashlib.sha1(sha1_passwd.encode('utf-8')).hexdigest(), image=img_path)
     yield from user.save()
     # make session cookie:
     r = web.Response()
@@ -462,6 +464,7 @@ def user_blogs(id,*, page='1'):
 def head_img_upload(request,*,file,img_uuid):
     file.file.seek(0)
     path=os.path.abspath('.')
+    path=os.path.join(path,"static")
     path=os.path.join(path,"HeadImg")
     path=os.path.join(path,"%s.jpg" % img_uuid)
     with open(path,"wb") as jpg:

@@ -8,7 +8,11 @@
 <link rel="stylesheet" href="/static/css/dropzone.min.css">
 <div id="dropz"></div>
 <script>
-
+    /*$("#dropz").dropzone({
+        maxFiles: 1,
+        maxFilesize: 2,
+        acceptedFiles: ".jpg,.gif,.png"
+    });*/
 </script>
 
 
@@ -18,6 +22,8 @@ function validateEmail(email) {
     var re = /^[a-z0-9\.\-\_]+\@[a-z0-9\-\_]+(\.[a-z0-9\-\_]+){1,4}$/;
     return re.test(email.toLowerCase());
 }
+
+var img_uuid= '{{img_uuid}}';
 
 $(function () {
     var vm = new Vue({
@@ -44,14 +50,15 @@ $(function () {
                 if (this.password1 !== this.password2) {
                     return $form.showFormError('两次输入的口令不一致');
                 }
-
-                var image = '/static/img/default.jpg';
+                
+                //var image = '/static/img/default.jpg';
                 var email = this.email.trim().toLowerCase();
                 $form.postJSON('/api/users', {
                     name: this.name.trim(),
                     email: email,
                     passwd: CryptoJS.SHA1(email + ':' + this.password1).toString(),
-                    image: image
+                    //image: image,
+                    img_uuid: img_uuid
                 }, function (err, r) {
                     if (err) {
                         return $form.showFormError(err);

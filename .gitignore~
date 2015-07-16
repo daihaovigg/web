@@ -3,4 +3,4 @@
 __pycache__
 config_override.py
 test.py
-**/HeadImg
+HeadImg
