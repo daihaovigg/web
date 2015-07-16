@@ -250,11 +250,21 @@ def api_register_user(*, email, name, passwd,img_uuid):
     users = yield from User.findAll('email=?', [email])
     if len(users) > 0:
         raise APIError('register:failed', 'email', 'Email is already in use.')
+    users = yield from User.findAll('name=?', [name])
+    if len(users) > 0:
+        raise APIError('register:failed', 'name', 'name is already in use.')
     uid = next_id()
     sha1_passwd = '%s:%s' % (uid, passwd)
     img_path="/static/HeadImg/"
     img_path=img_path+img_uuid
     img_path=img_path+".jpg"
+
+    path=os.path.abspath('.')
+    path=os.path.join(path,"static")
+    path=os.path.join(path,"HeadImg")
+    path=os.path.join(path,"%s.jpg" % img_uuid)
+    if not os.path.exists(path):
+        img_path="/static/img/default.jpg"
     user = User(id=uid, name=name.strip(), email=email, passwd=hashlib.sha1(sha1_passwd.encode('utf-8')).hexdigest(), image=img_path)
     yield from user.save()
     # make session cookie:
@@ -471,13 +481,3 @@ def head_img_upload(request,*,file,img_uuid):
         for i in file.file:
             jpg.write(i)
 
-
-
-#####test######
-@get('/upload')
-def test_get():
-    return {
-        '__template__': 'img_upload.html'}
-@post('/myapi/upload')
-def test(request,*,file):
-    pass
