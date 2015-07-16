@@ -249,10 +249,10 @@ def api_register_user(*, email, name, passwd,img_uuid):
         raise APIValueError('passwd')
     users = yield from User.findAll('email=?', [email])
     if len(users) > 0:
-        raise APIError('register:failed', 'email', 'Email is already in use.')
+        raise APIValueError('email', 'Email is already in use.')
     users = yield from User.findAll('name=?', [name])
     if len(users) > 0:
-        raise APIError('register:failed', 'name', 'name is already in use.')
+        raise APIValueError('name', 'name is already in use.')
     uid = next_id()
     sha1_passwd = '%s:%s' % (uid, passwd)
     img_path="/static/HeadImg/"
@@ -481,3 +481,9 @@ def head_img_upload(request,*,file,img_uuid):
         for i in file.file:
             jpg.write(i)
 
+#######have fun with ball_pool##########
+@get('/ball_pool')
+def test_show():
+    return {
+        '__template__': 'ball_pool.html'
+    }
