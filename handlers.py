@@ -487,3 +487,11 @@ def test_show():
     return {
         '__template__': 'ball_pool.html'
     }
+
+
+#######markdown --help#######
+@get('/markdown_help')
+def markdown_help():
+    return {
+        '__template__': 'markdown_help.html'
+    }
