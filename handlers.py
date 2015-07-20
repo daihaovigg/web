@@ -495,3 +495,8 @@ def markdown_help():
     return {
         '__template__': 'markdown_help.html'
     }
+    
+######preview markdown blog######
+@post('/myapi/markdown_translate')
+def markdown_translate():
+    pass
