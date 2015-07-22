@@ -291,7 +291,7 @@ def api_get_blog(*, id):
     return blog
 
 @post('/api/blogs')
-def api_create_blog(request, *, name, summary, content):
+def api_create_blog(request, *, name, summary, content,id):
     check_admin(request)
     if not name or not name.strip():
         raise APIValueError('name', 'name cannot be empty.')
@@ -299,7 +299,7 @@ def api_create_blog(request, *, name, summary, content):
         raise APIValueError('summary', 'summary cannot be empty.')
     if not content or not content.strip():
         raise APIValueError('content', 'content cannot be empty.')
-    blog = Blog(user_id=request.__user__.id, user_name=request.__user__.name, user_image=request.__user__.image, name=name.strip(), summary=summary.strip(), content=content.strip())
+    blog = Blog(user_id=request.__user__.id, user_name=request.__user__.name, user_image=request.__user__.image, name=name.strip(), summary=summary.strip(), content=content.strip(),id=id)
     yield from blog.save()
     return blog
 
@@ -379,14 +379,14 @@ def myapi_get_blog(*, id):
     return blog
 
 @post('/myapi/blogs')
-def myapi_create_blog(request, *, name, summary, content):
+def myapi_create_blog(request, *, name, summary, content,id):
     if not name or not name.strip():
         raise APIValueError('name', 'name cannot be empty.')
     if not summary or not summary.strip():
         raise APIValueError('summary', 'summary cannot be empty.')
     if not content or not content.strip():
         raise APIValueError('content', 'content cannot be empty.')
-    blog = Blog(user_id=request.__user__.id, user_name=request.__user__.name, user_image=request.__user__.image, name=name.strip(), summary=summary.strip(), content=content.strip())
+    blog = Blog(user_id=request.__user__.id, user_name=request.__user__.name, user_image=request.__user__.image, name=name.strip(), summary=summary.strip(), content=content.strip(),id=id)
     yield from blog.save()
     return blog
 
@@ -430,6 +430,7 @@ def mymanage_create_blog():
     return {
         '__template__': 'mymanage_blog_edit.html',
         'id': '',
+        'new_id': next_id(),
         'action': '/myapi/blogs'
     }
 
@@ -438,6 +439,7 @@ def mymanage_edit_blog(*, id):
     return {
         '__template__': 'mymanage_blog_edit.html',
         'id': id,
+        'new_id': '',
         'action': '/myapi/blogs/%s' % id
     }
 
@@ -497,6 +499,18 @@ def markdown_help():
     }
     
 ######preview markdown blog######
-@post('/myapi/markdown_translate')
-def markdown_translate():
-    pass
+#@post('/myapi/markdown_translate')
+#def markdown_translate():
+#    pass
+
+######blog_img_upload######
+@post('/myapi/bloguploader/{new_id}')
+def blog_img_upload(request,*,file,new_id):
+    file.file.seek(0)
+    path=os.path.abspath('.')
+    path=os.path.join(path,"static")
+    path=os.path.join(path,"BlogImg")
+    path=os.path.join(path,"%s.jpg" % new_id)
+    with open(path,"wb") as jpg:
+        for i in file.file:
+            jpg.write(i)
