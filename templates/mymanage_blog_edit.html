@@ -9,32 +9,29 @@
 <script>
     Dropzone.options.dropz = {
     acceptedFiles: ".jpg,.gif,.png",
-    }
+    sending: function(file, xhr, formData) {var img_path="![Alt text](/static/BlogImg/";img_name=new_id+"_";formData.append("filename", img_name+img_cnt);
+        img_path=img_path+img_name;
+        img_path=img_path+img_cnt;
+        img_path=img_path+".jpg)";
+        img_cnt=img_cnt+1;
+        $("#show_img").text(img_path);
+        }
+    };
 </script>
 <script>
 var
     ID = '{{ id }}',
     action = '{{ action }}',
-    new_id = '{{new_id}}';
+    new_id = '{{new_id}}',
+    img_name = '',
+    img_cnt=0;
+    //查找本blog多少图片，再把img_cnt传递
 
 function initVM(blog) {
     var vm = new Vue({
         el: '#vm',
         data: blog,
         methods: {
-            /*
-            onchange: function (event) {
-                event.preventDefault();
-                var $form = $('#vm').find('form').find('content');
-                $form.postJSON(action, this.$data, function (err, r) {
-                    if (err) {
-                        $form.showFormError(err);
-                    }
-                    else {
-                        return location.assign('/myapi/content');
-                    }
-                });
-            },*/
             submit: function (event) {
                 event.preventDefault();
                 var $form = $('#vm').find('form');
@@ -131,10 +128,13 @@ $(function () {
         </form>
     </div>
     <div class="uk-width-2-5" style="float:right;">
-        <form action="/myapi/bloguploader/{{new_id}}" method="post"
+        <form action="/myapi/bloguploader" method="post"
                 enctype="multipart/form-data" class="dropzone"
                 id="dropz">
             </form>
+        <div class="uk-form-row">
+            <p id="show_img">picture</p>
+        </div>
     </div>
     
 

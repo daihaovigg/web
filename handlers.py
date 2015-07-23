@@ -504,13 +504,13 @@ def markdown_help():
 #    pass
 
 ######blog_img_upload######
-@post('/myapi/bloguploader/{new_id}')
-def blog_img_upload(request,*,file,new_id):
+@post('/myapi/bloguploader')
+def blog_img_upload(request,*,file,filename):
     file.file.seek(0)
     path=os.path.abspath('.')
     path=os.path.join(path,"static")
     path=os.path.join(path,"BlogImg")
-    path=os.path.join(path,"%s.jpg" % new_id)
+    path=os.path.join(path,"%s.jpg" % filename)
     with open(path,"wb") as jpg:
         for i in file.file:
             jpg.write(i)
