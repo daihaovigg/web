@@ -507,10 +507,28 @@ def markdown_help():
 @post('/myapi/bloguploader')
 def blog_img_upload(request,*,file,filename):
     file.file.seek(0)
-    path=os.path.abspath('.')
-    path=os.path.join(path,"static")
-    path=os.path.join(path,"BlogImg")
-    path=os.path.join(path,"%s.jpg" % filename)
-    with open(path,"wb") as jpg:
-        for i in file.file:
-            jpg.write(i)
+    suffix=os.path.splitext(file.filename)[1][1:] ##获取后缀名
+    if(suffix=='jpg' or suffix=='png' or suffix=='gif'):
+        path=os.path.abspath('.')
+        path=os.path.join(path,"static")
+        path=os.path.join(path,"BlogImg")
+        path=os.path.join(path,"%s.%s" % (filename,suffix))
+        with open(path,"wb") as img:
+            for i in file.file:
+                img.write(i)
+    if(suffix=='mp3' or suffix=='ogg'):
+        path=os.path.abspath('.')
+        path=os.path.join(path,"static")
+        path=os.path.join(path,"audio")
+        path=os.path.join(path,"%s" % file.filename)
+        with open(path,"wb") as aud:
+            for i in file.file:
+                aud.write(i)
+    else :
+        pass
+
+
+####redirect audio#####
+@get('/blog/static/audio/{audioname}')
+def redirect_to_static(audioname):
+    return 'redirect: /static/audio/%s' % audioname

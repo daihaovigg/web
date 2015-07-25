@@ -7,14 +7,32 @@
 <link rel="stylesheet" href="/static/css/dropzone.min.css">
 <div id="dropz"></div>
 <script>
+    function suffix(file_name){
+    var result =/\.[^\.]+/.exec(file_name);
+    return result;
+    }
+
     Dropzone.options.dropz = {
-    acceptedFiles: ".jpg,.gif,.png",
-    sending: function(file, xhr, formData) {var img_path="![Alt text](/static/BlogImg/";img_name=new_id+"_";formData.append("filename", img_name+img_cnt);
+    acceptedFiles: ".jpg,.gif,.png,.mp3,.ogg",
+    sending: function(file, xhr, formData) {
+        var img_path="![Alt text](/static/BlogImg/";
+            img_name=new_id+"_";
+            formData.append("filename", img_name+img_cnt);
+        suffix_name=suffix(file.name);
+        if (suffix_name=='.jpg'||suffix_name=='.png'||suffix_name=='.gif') {
         img_path=img_path+img_name;
         img_path=img_path+img_cnt;
-        img_path=img_path+".jpg) <br />";
+        img_path=img_path+suffix_name;
+        img_path=img_path+")<br />"
         img_cnt=img_cnt+1;
         $("#show_img").append(img_path);
+        }
+        else if(suffix_name=='.ogg'||suffix_name=='.mp3'){
+            adu_path="&lt;audio&nbsp;src=&quot;static/audio/update_audio&quot;&nbsp;controls=&quot;controls&quot;&nbsp;autoplay=&quot;autoplay&quot;&nbsp;loop=&quot;loop&quot;&gt;";
+            adu_path=adu_path.replace(/update_audio/,file.name);
+            $("#show_img").append(adu_path);
+        }
+        else {};
         }
     };
 </script>
