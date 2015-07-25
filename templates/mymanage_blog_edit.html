@@ -12,9 +12,9 @@
     sending: function(file, xhr, formData) {var img_path="![Alt text](/static/BlogImg/";img_name=new_id+"_";formData.append("filename", img_name+img_cnt);
         img_path=img_path+img_name;
         img_path=img_path+img_cnt;
-        img_path=img_path+".jpg)";
+        img_path=img_path+".jpg) <br />";
         img_cnt=img_cnt+1;
-        $("#show_img").text(img_path);
+        $("#show_img").append(img_path);
         }
     };
 </script>
@@ -136,7 +136,7 @@ $(function () {
                 id="dropz">
             </form>
         <div class="uk-form-row">
-            <p id="show_img">picture</p>
+            <p id="show_img"></p>
         </div>
     </div>
     
