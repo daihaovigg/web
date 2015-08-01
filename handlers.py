@@ -539,10 +539,10 @@ def blog_img_upload(request,*,file,filename):
 
 ####redirect audio#####
 @get('/blog/static/audio/{audioname}')
-def redirect_to_static(audioname):
+def redirect_audio_to_static(audioname):
     return 'redirect: /static/audio/%s' % audioname
 
 ####redirect video#####
 @get('/blog/static/video/{videoname}')
-def redirect_to_static(videoname):
+def redirect_video_to_static(videoname):
     return 'redirect: /static/video/%s' % videoname
