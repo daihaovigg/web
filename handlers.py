@@ -463,7 +463,8 @@ def user_blogs(id,*, page='1'):
     return {
         '__template__': 'user_blogs.html',
         'page': page,
-        'blogs': blogs
+        'blogs': blogs,
+        'id': id
     }
 
 
