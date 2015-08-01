@@ -517,7 +517,7 @@ def blog_img_upload(request,*,file,filename):
         with open(path,"wb") as img:
             for i in file.file:
                 img.write(i)
-    if(suffix=='mp3' or suffix=='ogg'):
+    elif(suffix=='mp3' or suffix=='ogg'):
         path=os.path.abspath('.')
         path=os.path.join(path,"static")
         path=os.path.join(path,"audio")
@@ -525,6 +525,14 @@ def blog_img_upload(request,*,file,filename):
         with open(path,"wb") as aud:
             for i in file.file:
                 aud.write(i)
+    elif(suffix=='mp4'):
+        path=os.path.abspath('.')
+        path=os.path.join(path,"static")
+        path=os.path.join(path,"video")
+        path=os.path.join(path,"%s" % file.filename)
+        with open(path,"wb") as vid:
+            for i in file.file:
+                vid.write(i)
     else :
         pass
 
@@ -533,3 +541,8 @@ def blog_img_upload(request,*,file,filename):
 @get('/blog/static/audio/{audioname}')
 def redirect_to_static(audioname):
     return 'redirect: /static/audio/%s' % audioname
+
+####redirect video#####
+@get('/blog/static/video/{videoname}')
+def redirect_to_static(videoname):
+    return 'redirect: /static/video/%s' % videoname

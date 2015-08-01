@@ -13,7 +13,7 @@
     }
 
     Dropzone.options.dropz = {
-    acceptedFiles: ".jpg,.gif,.png,.mp3,.ogg",
+    acceptedFiles: ".jpg,.gif,.png,.mp3,.ogg,.mp4",
     sending: function(file, xhr, formData) {
         var img_path="![Alt text](/static/BlogImg/";
             img_name=new_id+"_";
@@ -31,6 +31,11 @@
             adu_path="&lt;audio&nbsp;src=&quot;static/audio/update_audio&quot;&nbsp;controls=&quot;controls&quot;&nbsp;autoplay=&quot;autoplay&quot;&nbsp;loop=&quot;loop&quot;&gt;";
             adu_path=adu_path.replace(/update_audio/,file.name);
             $("#show_img").append(adu_path);
+        }
+        else if(suffix_name=='.mp4'){
+            vid_path="&lt;video&nbsp;src=&quot;static/video/update_video&quot;&nbsp;width=&quot;840&quot;&nbsp;controls=&quot;controls&quot;&nbsp;&gt;";
+            vid_path=vid_path.replace(/update_video/,file.name);
+            $("#show_img").append(vid_path);
         }
         else {};
         }
