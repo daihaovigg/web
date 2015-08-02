@@ -539,7 +539,7 @@ def blog_img_upload(request,*,file,filename):
                 vid.write(i)
         file_name="/static/video/"+file.filename
         videolist = VideoList(src=file_name,name=file.filename)
-        yield from Videolist.save()
+        yield from videolist.save()
 
     else :
         pass
@@ -555,10 +555,20 @@ def redirect_audio_to_static(audioname):
 def redirect_video_to_static(videoname):
     return 'redirect: /static/video/%s' % videoname
 
+#####audioplayer by audiojs#######
 @get('/audioplayer')
 def audioplayer():
     audios = yield from AudioList.findAll(orderBy='created_at desc')
     return {
         '__template__': 'audio_player.html',
         'audios': audios
+    }
+
+#####cideoplayer by dai ######
+@get('/videoplayer')
+def videoplayer():
+    videos = yield from VideoList.findAll(orderBy='created_at desc')
+    return {
+        '__template__': 'video_player.html',
+        'videos': videos
     }

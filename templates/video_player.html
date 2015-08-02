@@ -1,0 +1,56 @@
+{% extends '__base__.html' %}
+{% block title %}Video{% endblock %}
+{% block beforehead %}
+<style>
+      /*body { color: #666; font-family: sans-serif; line-height: 1.4; }*/
+      h1 { color: #444; font-size: 1.2em; padding: 14px 2px 12px; margin: 0px; }
+      h1 em { font-style: normal; color: #999; }
+      #wrapper a { color: #888; text-decoration: none; }
+      #wrapper { width: 400px; margin: 40px auto; }
+      
+      ol { padding: 0px; margin: 0px; list-style: decimal-leading-zero inside; color: #ccc; width: 460px; border-top: 1px solid #ccc; font-size: 0.9em; }
+      ol li { position: relative; margin: 0px; padding: 9px 2px 10px; border-bottom: 1px solid #ccc; cursor: pointer; }
+      ol li a { display: block; text-indent: -3.3ex; padding: 0px 0px 0px 20px; }
+      @media screen and (max-device-width: 480px) {
+        #wrapper { position: relative; left: -3%; }
+      }
+    </style>
+<script>
+$(function() { 
+	var myVideo=document.getElementById("video1");
+	
+	// Keyboard shortcuts
+        $(document).keydown(function(e) {
+         var unicode = e.charCode ? e.charCode : e.keyCode;
+            // spacebar
+        if (unicode == 32) {
+            if (myVideo.paused) 
+  				myVideo.play(); 
+			else 
+  				myVideo.pause();
+          }
+        });
+
+        
+         $('ol li').click(function(e) {
+          e.preventDefault();
+          src=$('a', this).attr('data-src');
+          myVideo.src=src;
+          myVideo.load();
+        })
+    });
+
+</script>
+{% endblock %}
+{% block content %}
+	<h2></h2>
+	<div id="wrapper">
+      <video id="video1" width="840" controls="controls" preload="auto"></video>
+      <hr />
+      <ol>
+    {% for video in videos %}
+        <li><a href="#" data-src="{{video.src}}">{{video.name}}</a></li>
+    {% endfor %}
+      </ol>
+    </div>
+{% endblock %}
