@@ -14,7 +14,7 @@ from aiohttp import web
 from coroweb import get, post
 from apis import Page, APIValueError, APIResourceNotFoundError
 
-from models import User, Comment, Blog, next_id
+from models import User, Comment, Blog, AudioList, VideoList, next_id
 from config import configs
 
 COOKIE_NAME = 'awesession'
@@ -525,6 +525,10 @@ def blog_img_upload(request,*,file,filename):
         with open(path,"wb") as aud:
             for i in file.file:
                 aud.write(i)
+        file_name="/static/audio/"+file.filename
+        audiolist = AudioList(src=file_name,name=file.filename)
+        yield from audiolist.save()
+
     elif(suffix=='mp4'):
         path=os.path.abspath('.')
         path=os.path.join(path,"static")
@@ -533,6 +537,10 @@ def blog_img_upload(request,*,file,filename):
         with open(path,"wb") as vid:
             for i in file.file:
                 vid.write(i)
+        file_name="/static/video/"+file.filename
+        videolist = VideoList(src=file_name,name=file.filename)
+        yield from Videolist.save()
+
     else :
         pass
 
@@ -546,3 +554,11 @@ def redirect_audio_to_static(audioname):
 @get('/blog/static/video/{videoname}')
 def redirect_video_to_static(videoname):
     return 'redirect: /static/video/%s' % videoname
+
+@get('/audioplayer')
+def audioplayer():
+    audios = yield from AudioList.findAll(orderBy='created_at desc')
+    return {
+        '__template__': 'audio_player.html',
+        'audios': audios
+    }

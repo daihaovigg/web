@@ -48,3 +48,21 @@ class Comment(Model):
     to_who = StringField(ddl='varchar(50)')
     content = TextField()
     created_at = FloatField(default=time.time)
+
+
+####audio playlist##########
+class AudioList(Model):
+    __table__ = 'audiolist'
+
+    id = StringField(primary_key=True, default=next_id, ddl='varchar(50)')
+    src = StringField(ddl='varchar(200)')
+    name = StringField(ddl='varchar(200)')
+    created_at = FloatField(default=time.time)
+####video playlist##########
+class VideoList(Model):
+    __table__ = 'videolist'
+
+    id = StringField(primary_key=True, default=next_id, ddl='varchar(50)')
+    src = StringField(ddl='varchar(200)')
+    name = StringField(ddl='varchar(200)')
+    created_at = FloatField(default=time.time)

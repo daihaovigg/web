@@ -33,7 +33,7 @@
             $("#show_img").append(adu_path);
         }
         else if(suffix_name=='.mp4'){
-            vid_path="&lt;video&nbsp;src=&quot;static/video/update_video&quot;&nbsp;width=&quot;840&quot;&nbsp;controls=&quot;controls&quot;&nbsp;&gt;";
+            vid_path="&lt;video&nbsp;src=&quot;static/video/update_video&quot;&nbsp;width=&quot;840&quot;&nbsp;controls=&quot;controls&quot;&nbsp;preload=&quot;auto&quot;&gt;";
             vid_path=vid_path.replace(/update_video/,file.name);
             $("#show_img").append(vid_path);
         }
