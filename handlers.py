@@ -77,6 +77,13 @@ def cookie2user(cookie_str):
 
 @get('/')
 def index(*, page='1'):
+    return {
+        '__template__': 'index.html'
+    }
+
+    
+@get('/blogs')
+def index_blogs(*, page='1'):
     page_index = get_page_index(page)
     num = yield from Blog.findNumber('count(id)')
     page = Page(num,page_index=page_index)
