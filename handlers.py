@@ -74,15 +74,8 @@ def cookie2user(cookie_str):
     except Exception as e:
         logging.exception(e)
         return None
-
-@get('/')
-def index(*, page='1'):
-    return {
-        '__template__': 'index.html'
-    }
-
     
-@get('/blogs')
+@get('/')
 def index_blogs(*, page='1'):
     page_index = get_page_index(page)
     num = yield from Blog.findNumber('count(id)')
@@ -579,3 +572,7 @@ def videoplayer():
         '__template__': 'video_player.html',
         'videos': videos
     }
+
+#########search box############
+#@post('/search-result')
+#def search_box():

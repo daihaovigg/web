@@ -4,34 +4,43 @@
 
 {% block beforehead %}
 
-<script>
-</script>
-
 {% endblock %}
 
 {% block content %}
+    <div class="o-right uk-width-medium-7-10 ">
+        <div class="o-container uk-width-medium-4-5">
+            <!--768以下出现导航栏-->
+            <nav class="o-medium-bar uk-navbar uk-visible-small">
+                <a class="o-toggle uk-navbar-brand" href="#o-nav" data-uk-offcanvas><i class="uk-icon-bars"></i></a>
+                <div class="uk-navbar-flip">
+                    <div class="uk-navbar-content">
+                        <form class="o-hidden-small uk-search" data-uk-search>
+                            <input class="uk-search-field" type="search" placeholder="点此搜索">
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="uk-navbar-content uk-navbar-center uk-navbar-brand">MemoBlog</div>
+            </nav>
+            <hr class="uk-visible-small" />
 
-    <div class="uk-width-medium-3-4">
+
+    <div class="o-main">
     {% for blog in blogs %}
         <article class="uk-article">
-            <h2><a href="/blog/{{ blog.id }}">{{ blog.name }}</a></h2>
-            <p class="uk-article-meta">{{blog.user_name}}  发表于{{ blog.created_at|datetime }}</p>
+            <h1 class="uk-article-title"><a href="/blog/{{ blog.id }}">{{ blog.name }}</a></h1>
             <p>{{ blog.summary }}</p>
-            <p><a href="/blog/{{ blog.id }}">继续阅读 <i class="uk-icon-angle-double-right"></i></a></p>
-        </article>
+            <p class="o-meta uk-article-meta">
+                <a target="_blank" href="/user/{{blog.user_name}}">{{blog.user_name}}</a>
+                <i class="o-icon uk-icon-calendar-o"></i>
+                发表于{{ blog.created_at|datetime }}
+                <i class="o-icon uk-icon-book"></i>
+            </p>
         <hr class="uk-article-divider">
+        </article>
     {% endfor %}
     {{ pagination('/?page=', page) }}
-    </div>
+    </div> 
 
-    <div class="uk-width-medium-1-4">
-        <div class="uk-panel uk-panel-header">
-            <h3 class="uk-panel-title">友情链接</h3>
-            <ul class="uk-list uk-list-line">
-                <li><i class="uk-icon-thumbs-o-up"></i> <a target="_blank" href="http://www.liaoxuefeng.com/category/0013738748415562fee26e070fa4664ad926c8e30146c67000">编程</a></li>
-                <li><i class="uk-icon-thumbs-o-up"></i> <a target="_blank" href="http://www.baidu.com">读书</a></li>
-            </ul>
-        </div>
-    </div>
 
 {% endblock %}
