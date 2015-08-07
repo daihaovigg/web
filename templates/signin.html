@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <title>登录 - Awesome Python Webapp</title>
-    <link rel="stylesheet" href="/static/css/uikit.min.css">
+    <link rel="stylesheet" href="/static/css/uikit.css">
     <link rel="stylesheet" href="/static/css/uikit.gradient.min.css">
     <script src="/static/js/jquery.min.js"></script>
     <script src="/static/js/sha1.min.js"></script>
@@ -31,7 +31,7 @@ $(function() {
                     };
                 $form.postJSON('/api/authenticate', data, function(err, result) {
                     if (! err) {
-                        location.assign('/blogs');
+                        location.assign('/');
                     }
                 });
             }
