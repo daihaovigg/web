@@ -331,12 +331,12 @@ def api_delete_blog(request, *, id):
 #######common user manage######
 @get('/myapi/comments')
 def myapi_comments(request,*, page='1'):
+    where_user='to_who='+'\''+request.__user__.name+'\''
     page_index = get_page_index(page)
-    num = yield from Comment.findNumber('count(id)')
+    num = yield from Comment.findNumber('count(id)',where=where_user)
     p = Page(num, page_index)
     if num == 0:
         return dict(page=p, comments=())
-    where_user='to_who='+'\''+request.__user__.name+'\''
     comments = yield from Comment.findAll(where=where_user,orderBy='created_at desc', limit=(p.offset, p.limit))
     return dict(page=p, comments=comments)
 
@@ -364,12 +364,12 @@ def myapi_delete_comments(id, request):
 
 @get('/myapi/blogs')
 def myapi_blogs(request,*, page='1'):
+    where_user='user_name='+'\''+request.__user__.name+'\''
     page_index = get_page_index(page)
-    num = yield from Blog.findNumber('count(id)')
+    num = yield from Blog.findNumber('count(id)',where=where_user)
     p = Page(num, page_index)
     if num == 0:
         return dict(page=p, blogs=())
-    where_user='user_name='+'\''+request.__user__.name+'\''
     blogs = yield from Blog.findAll(where=where_user,orderBy='created_at desc', limit=(p.offset, p.limit))
     return dict(page=p, blogs=blogs)
 
@@ -452,13 +452,13 @@ def mymanage_comments(*, page='1'):
 
 @get('/user/{id}')
 def user_blogs(id,*, page='1'):
+    where_user='user_name='+'\''+id+'\''
     page_index = get_page_index(page)
-    num = yield from Blog.findNumber('count(id)')
-    page = Page(num)
+    num = yield from Blog.findNumber('count(id)',where=where_user)
+    page = Page(num,page_index=page_index)
     if num == 0:
         blogs = []
     else:
-        where_user='user_name='+'\''+id+'\''
         blogs = yield from Blog.findAll(where=where_user,orderBy='created_at desc', limit=(page.offset, page.limit))
     return {
         '__template__': 'user_blogs.html',

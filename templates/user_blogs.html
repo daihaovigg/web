@@ -1,5 +1,21 @@
 {% extends '__base__.html' %}
-
+<!--
+{% macro userpagination(url, b_url,blog, page) %}
+    <ul class="uk-pagination">
+        {% if page.has_previous %}
+            <li><a href="{{ url }}{{id}}{{b_url}}{{ page.page_index - 1 }}"><i class="uk-icon-angle-double-left"></i></a></li>
+        {% else %}
+            <li class="uk-disabled"><span><i class="uk-icon-angle-double-left"></i></span></li>
+        {% endif %}
+            <li class="uk-active"><span>{{ page.page_index }}</span></li>
+        {% if page.has_next %}
+            <li><a href="{{ url }}{{id}}{{b_url}}{{ page.page_index + 1 }}"><i class="uk-icon-angle-double-right"></i></a></li>
+        {% else %}
+            <li class="uk-disabled"><span><i class="uk-icon-angle-double-right"></i></span></li>
+        {% endif %}
+    </ul>
+{% endmacro %}
+-->
 {% block title %}{{id}}的日志{% endblock %}
 
 {% block beforehead %}
@@ -31,16 +47,16 @@
             <h1 class="uk-article-title"><a href="/blog/{{ blog.id }}">{{ blog.name }}</a></h1>
             <p>{{ blog.summary }}</p>
             <p class="o-meta uk-article-meta">
-                <a target="_blank" href="/user/{{blog.user_name}}">{{blog.user_name}}</a>
-                <i class="o-icon uk-icon-calendar-o"></i>
+                {{blog.user_name}}<i class="o-icon uk-icon-calendar-o"></i>
                 发表于{{ blog.created_at|datetime }}
                 <i class="o-icon uk-icon-book"></i>
             </p>
         <hr class="uk-article-divider">
         </article>
     {% endfor %}
-    {{ pagination('/?page=', page) }}
-    </div> 
+
+    {{ userpagination(url,'?page=', id, page) }}
+</div> 
 
 
 {% endblock %}
