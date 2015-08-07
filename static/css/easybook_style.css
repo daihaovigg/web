@@ -105,7 +105,7 @@ html,body,h1,h2,h3,h4,h5,h6 {
 }
 .o-main p {
     text-align: justify;
-    -moz-text-align-last: justify;
+    
     -webkit-text-align-last: justify; 
 }
 .o-meta {}
