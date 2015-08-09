@@ -574,5 +574,14 @@ def videoplayer():
     }
 
 #########search box############
-#@post('/search-result')
-#def search_box():
+@get('/search-result')
+def search_box(request,*,search):
+    key_word='%%'+search+'%%'               ## %%是%的转义
+    key_word='name like '+'\''+key_word+'\''
+    blogs = yield from Blog.findAll(key_word, orderBy='created_at desc')
+    return {
+        '__template__': 'user_blogs.html',
+        'page': 1,
+        'blogs': blogs,
+        'id': '搜索'
+    }

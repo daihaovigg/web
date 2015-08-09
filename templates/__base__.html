@@ -99,8 +99,9 @@
 <!--search   -->        
 <div id="o-search" class="uk-offcanvas">
                                 <div class="uk-offcanvas-bar">
-                                    <form class="uk-search">
-                                        <input class="uk-search-field" type="search" placeholder="搜索...">
+                                    <form  class="uk-search" action="/search-result" method="get" target="_blank">
+                                        <!--不保存缓存AUTOCOMPLETE="off" -->
+                                        <input class="uk-search-field" type="search" AUTOCOMPLETE="off" name="search" placeholder="搜索... "/>
                                     </form>
                                 </div>
                             </div>        
