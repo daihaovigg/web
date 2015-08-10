@@ -66,7 +66,7 @@ function setHeightKeyWord(id, keyword, color, bold) {
     <hr />
     {% for blog in blogs %}
         <article class="uk-article">
-            <h1 class="uk-article-title"><a href="/blog/{{ blog.id }}">{{ blog.name }}</a></h1>
+            <h1 class="uk-article-title"><a target="_blank" href="/blog/{{ blog.id }}">{{ blog.name }}</a></h1>
             <p>{{ blog.summary }}</p>
             <p class="o-meta uk-article-meta">
                 {{blog.user_name}}<i class="o-icon uk-icon-calendar-o"></i>
@@ -83,7 +83,7 @@ function setHeightKeyWord(id, keyword, color, bold) {
     <hr />
       <ol>
     {% for audio in audios %}
-        <li><a href="#" data-src="{{audio.src}}">{{audio.name}}</a></li>
+        <li><a target="_blank" href="{{audio.src}}" data-src="{{audio.src}}">{{audio.name}}</a></li>
     {% endfor %}
       </ol>
     </div>
@@ -94,7 +94,7 @@ function setHeightKeyWord(id, keyword, color, bold) {
     <hr />
 	<ol>
     {% for video in videos %}
-        <li><a href="#" data-src="{{video.src}}">{{video.name}}</a></li>
+        <li><a target="_blank" href="{{video.src}}" data-src="{{video.src}}">{{video.name}}</a></li>
     {% endfor %}
      </ol>
     </div>
