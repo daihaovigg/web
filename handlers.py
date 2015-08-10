@@ -579,9 +579,12 @@ def search_box(request,*,search):
     key_word='%%'+search+'%%'               ## %%是%的转义
     key_word='name like '+'\''+key_word+'\''
     blogs = yield from Blog.findAll(key_word, orderBy='created_at desc')
+    audios = yield from AudioList.findAll(key_word, orderBy='created_at desc')
+    videos = yield from VideoList.findAll(key_word, orderBy='created_at desc')
     return {
-        '__template__': 'user_blogs.html',
-        'page': 1,
+        '__template__': 'search.html',
         'blogs': blogs,
-        'id': '搜索'
+        'audios': audios,
+        'videos': videos,
+        'key_word': search
     }
