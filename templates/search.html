@@ -1,8 +1,35 @@
 {% extends '__base__.html' %}
 {% block title %}Search{% endblock %}
 {% block beforehead %}
+<script src="/static/js/audio.min.js"></script>
 <script src="/static/uikit/js/core/modal.js"></script>
 <script src="/static/uikit/js/components/lightbox.min.js"></script>
+<script>
+    $(function() { 
+        // Setup the player to autoplay the next track
+        var a = audiojs.createAll({
+          trackEnded: function() {
+            var next = $('ol li.playing').next();
+            if (!next.length) next = $('ol li').first();
+            next.addClass('playing').siblings().removeClass('playing');
+            audio.load($('a', next).attr('data-src'));
+            audio.play();
+          }
+        });
+        // Load in the first track
+        var audio = a[0];
+            first = $('ol a').attr('data-src');
+        $('ol li').first().addClass('playing');
+        audio.load(first);
+        // Load in a track on click
+        $('ol li').click(function(e) {
+          e.preventDefault();
+          $(this).addClass('playing').siblings().removeClass('playing');
+          audio.load($('a', this).attr('data-src'));
+          audio.play();
+        })
+      });
+    </script>
 <!--
 <script>
 $(function() {
@@ -69,57 +96,52 @@ function setHeightKeyWord(id, keyword, color, bold) {
                                 <div class="uk-width-medium-1-2">
 
                                     <ul class="uk-tab" data-uk-tab="{connect:'#tab-content'}">
-                                        <li class="uk-active"><a href="#">Tab</a></li>
-                                        <li><a href="#">Tab</a></li>
-                                        <li><a href="#">Tab</a></li>
+                                        <li class="uk-active"><a href="#" style="font-size: 16pt;">博客</a></li>
+                                        <li><a href="#" style="font-size: 16pt;">音乐</a></li>
+                                        <li><a href="#" style="font-size: 16pt;">视频</a></li>
                                     </ul>
 
                                 </div>
                             </div>
+
+
                             <div>
-                                    <ul id="tab-content" class="uk-switcher uk-margin">
-                                        <li class="uk-active">Hello!</li>
-                                        <li>Hello again!</li>
-                                        <li>Bazinga!</li>
-                                    </ul>
+                                <ul id="tab-content" class="uk-switcher uk-margin">
+                                        <!--博客 -->
+                                    <li class="uk-active">  
+                                        {% for blog in blogs %}
+                                        <article class="uk-article">
+                                            <h1 class="uk-article-title"><a target="_blank" href="/blog/{{ blog.id }}">{{ blog.name }}</a></h1>
+                                            <p>{{ blog.summary }}</p>
+                                            <p class="o-meta uk-article-meta">
+                                                {{blog.user_name}}<i class="o-icon uk-icon-calendar-o"></i>
+                                                发表于{{ blog.created_at|datetime }}
+                                            <i class="o-icon uk-icon-book"></i>
+                                            </p>
+                                            <hr class="uk-article-divider">
+                                        </article>
+                                        {% endfor %}
+                                    </li>
+                                        
+                                        <!--音乐 -->
+                                    <li>
+                                        <audio></audio>
+                                        <ol>
+                                            {% for audio in audios %}
+                                            <li><a href="#" data-src="{{audio.src}}" class="audioplaysrc">{{audio.name}}</a></li>
+                                            {% endfor %}
+                                        </ol>
+                                    </li>
+                                        
+                                        <!--视频 -->
+                                    <li>
+                                        <ol>
+                                        {% for video in videos %}
+                                        <li><a href="{{video.src}}" data-uk-lightbox title="{{video.name}}">{{video.name}}</a></li>
+                                        {% endfor %}
+                                        </ol>
+                                    </li>
+                                </ul>
                                 </div>
-
-    <div class="o-main">
-    <h1 style="color:red">博客：</h1>
-    <hr />
-    {% for blog in blogs %}
-        <article class="uk-article">
-            <h1 class="uk-article-title"><a target="_blank" href="/blog/{{ blog.id }}">{{ blog.name }}</a></h1>
-            <p>{{ blog.summary }}</p>
-            <p class="o-meta uk-article-meta">
-                {{blog.user_name}}<i class="o-icon uk-icon-calendar-o"></i>
-                发表于{{ blog.created_at|datetime }}
-                <i class="o-icon uk-icon-book"></i>
-            </p>
-        <hr class="uk-article-divider">
-        </article>
-    {% endfor %}
-	
-	<!--音乐 -->
-	</div>
-	<h1 style="color:red">音乐：</h1>
-    <hr />
-      <ol>
-    {% for audio in audios %}
-        <li><a target="_blank" href="{{audio.src}}" data-src="{{audio.src}}">{{audio.name}}</a></li>
-    {% endfor %}
-      </ol>
-    </div>
-
-	<!--视频 -->
-	<div>
-	<h1 style="color:red">视频：</h1>
-    <hr />
-	<ol>
-    {% for video in videos %}
-        <li><a href="{{video.src}}" data-uk-lightbox title="{{video.name}}">{{video.name}}</a></li>
-    {% endfor %}
-     </ol>
-    </div>
 
 {% endblock %}
