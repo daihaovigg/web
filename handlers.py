@@ -486,7 +486,7 @@ def head_img_upload(request,*,file,img_uuid):
 
 #######have fun with ball_pool##########
 @get('/ball_pool')
-def test_show():
+def ball_pool_fun():
     return {
         '__template__': 'ball_pool.html'
     }
@@ -499,10 +499,6 @@ def markdown_help():
         '__template__': 'markdown_help.html'
     }
     
-######preview markdown blog######
-#@post('/myapi/markdown_translate')
-#def markdown_translate():
-#    pass
 
 ######blog_img_upload######
 @post('/myapi/bloguploader')
@@ -587,4 +583,11 @@ def search_box(request,*,search):
         'audios': audios,
         'videos': videos,
         'key_word': search
+    }
+
+##test ###
+@get('/test')
+def test():
+    return {
+        '__template__': 'test.html'
     }

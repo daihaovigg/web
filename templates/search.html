@@ -1,6 +1,8 @@
 {% extends '__base__.html' %}
 {% block title %}Search{% endblock %}
 {% block beforehead %}
+<script src="/static/uikit/js/core/modal.js"></script>
+<script src="/static/uikit/js/components/lightbox.min.js"></script>
 <!--
 <script>
 $(function() {
@@ -61,6 +63,27 @@ function setHeightKeyWord(id, keyword, color, bold) {
             <hr class="uk-visible-small" />
 
 
+<!-- 导航栏 -->
+
+   <div class="uk-margin uk-grid" data-uk-grid-margin>
+                                <div class="uk-width-medium-1-2">
+
+                                    <ul class="uk-tab" data-uk-tab="{connect:'#tab-content'}">
+                                        <li class="uk-active"><a href="#">Tab</a></li>
+                                        <li><a href="#">Tab</a></li>
+                                        <li><a href="#">Tab</a></li>
+                                    </ul>
+
+                                </div>
+                            </div>
+                            <div>
+                                    <ul id="tab-content" class="uk-switcher uk-margin">
+                                        <li class="uk-active">Hello!</li>
+                                        <li>Hello again!</li>
+                                        <li>Bazinga!</li>
+                                    </ul>
+                                </div>
+
     <div class="o-main">
     <h1 style="color:red">博客：</h1>
     <hr />
@@ -94,7 +117,7 @@ function setHeightKeyWord(id, keyword, color, bold) {
     <hr />
 	<ol>
     {% for video in videos %}
-        <li><a target="_blank" href="{{video.src}}" data-src="{{video.src}}">{{video.name}}</a></li>
+        <li><a href="{{video.src}}" data-uk-lightbox title="{{video.name}}">{{video.name}}</a></li>
     {% endfor %}
      </ol>
     </div>
