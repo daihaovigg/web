@@ -3,7 +3,8 @@
 {% block title %}{{ blog.name }}{% endblock %}
 
 {% block beforehead %}
-
+<script src="/static/uikit/js/core/modal.js"></script>
+<script src="/static/uikit/js/components/lightbox.min.js"></script>
 <script>
 
 var comment_url = '/api/blogs/{{ blog.id }}/comments';

@@ -1,5 +1,5 @@
 {% extends '__base__.html' %}
-{% block title %}Search{% endblock %}
+{% block title %}{{key_word}}的搜索结果{% endblock %}
 {% block beforehead %}
 <script src="/static/js/audio.min.js"></script>
 <script src="/static/uikit/js/core/modal.js"></script>
@@ -20,15 +20,26 @@
         var audio = a[0];
             first = $('ol a').attr('data-src');
         $('ol li').first().addClass('playing');
-        audio.load(first);
+        if(first){
+            audio.load(first);
+        }
+
         // Load in a track on click
         $('ol li').click(function(e) {
           e.preventDefault();
           $(this).addClass('playing').siblings().removeClass('playing');
           audio.load($('a', this).attr('data-src'));
           audio.play();
-        })
-      });
+        });
+        //color on key_word
+        //var $keyword = "{{key_word}}";
+        //setHeightKeyWord($keyword);
+    });
+
+      //  function setHeightKeyWord(keyword){
+      //      rep_key="<span style='color:red;'>"+keyword+"</span>";
+      //      $("h1.uk-article-title").each(function(){$(this).html($(this).html().replace(keyword,rep_key));});
+      //  }
     </script>
 <!--
 <script>
@@ -126,9 +137,10 @@ function setHeightKeyWord(id, keyword, color, bold) {
                                         <!--音乐 -->
                                     <li>
                                         <audio></audio>
+                                        <hr />
                                         <ol>
                                             {% for audio in audios %}
-                                            <li><a href="#" data-src="{{audio.src}}" class="audioplaysrc">{{audio.name}}</a></li>
+                                            <li><a href="#" data-src="{{audio.src}}">{{audio.name}}</a></li>
                                             {% endfor %}
                                         </ol>
                                     </li>

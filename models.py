@@ -66,3 +66,13 @@ class VideoList(Model):
     src = StringField(ddl='varchar(200)')
     name = StringField(ddl='varchar(200)')
     created_at = FloatField(default=time.time)
+
+####image list##########
+class ImageList(Model):
+    __table__ = 'imagelist'
+
+    id = StringField(primary_key=True, default=next_id, ddl='varchar(50)')
+    src = StringField(ddl='varchar(200)')
+    name = StringField(ddl='varchar(200)')
+    created_at = FloatField(default=time.time)
+

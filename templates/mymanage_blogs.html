@@ -32,7 +32,7 @@ function initVM(data) {
     $('#vm').show();
 }
 
-$(function() {
+$(function(){
     getJSON('/myapi/blogs', {
         page: {{ page_index }}
     }, function (err, results) {

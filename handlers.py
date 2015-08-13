@@ -14,7 +14,7 @@ from aiohttp import web
 from coroweb import get, post
 from apis import Page, APIValueError, APIResourceNotFoundError
 
-from models import User, Comment, Blog, AudioList, VideoList, next_id
+from models import User, Comment, Blog, AudioList, VideoList, ImageList, next_id
 from config import configs
 
 COOKIE_NAME = 'awesession'
@@ -513,6 +513,10 @@ def blog_img_upload(request,*,file,filename):
         with open(path,"wb") as img:
             for i in file.file:
                 img.write(i)
+        filename=filename+'.'+suffix
+        imagelist=ImageList(src="/static/BlogImg/"+filename,name=filename)
+        yield from imagelist.save()
+
     elif(suffix=='mp3' or suffix=='ogg'):
         path=os.path.abspath('.')
         path=os.path.join(path,"static")
@@ -573,7 +577,7 @@ def videoplayer():
 @get('/search-result')
 def search_box(request,*,search):
     key_word='%%'+search+'%%'               ## %%是%的转义
-    key_word='name like '+'\''+key_word+'\''
+    key_word='name like '+'\''+key_word+'\'' #+' or '+'summary like '+'\''+key_word+'\''
     blogs = yield from Blog.findAll(key_word, orderBy='created_at desc')
     audios = yield from AudioList.findAll(key_word, orderBy='created_at desc')
     videos = yield from VideoList.findAll(key_word, orderBy='created_at desc')
@@ -588,6 +592,8 @@ def search_box(request,*,search):
 ##test ###
 @get('/test')
 def test():
+    images = yield from ImageList.findAll(orderBy='created_at desc')
     return {
+        'images': images,
         '__template__': 'test.html'
     }
